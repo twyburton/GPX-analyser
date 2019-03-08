@@ -1,0 +1,64 @@
+package com.burton.twy.analyser.core;
+
+import com.burton.twy.gpx.core.GPXTrackPoint;
+import com.burton.twy.gpx.core.GPXTrackSegment;
+
+public class Calculator {
+
+	public static double getDistanceforSegment( GPXTrackSegment seg ){
+		
+		double d = 0;
+		
+		for( int i = 1 ; i < seg.getTrackPointsSize(); i++ ){
+			GPXTrackPoint p0 = seg.getTrackPoint(i-1);
+			GPXTrackPoint p1 = seg.getTrackPoint(i);
+			
+			d += getDistance(p0.getLat(), p0.getLon(), p1.getLat(), p1.getLon());
+			
+		}
+		
+		return d;
+		
+	}
+	
+	
+	private static double distance(double lat1, double lat2, double lon1, double lon2){
+		
+		double R = 6371e3; // metres
+		double o1 = Math.toRadians(lat1);
+		double o2 = Math.toRadians(lat2);
+		double o = Math.toRadians(lat2-lat1);
+		double l = Math.toRadians(lon2-lon1);
+
+		double a = Math.sin(o/2) * Math.sin(o/2) +
+		        Math.cos(o1) * Math.cos(o2) *
+		        Math.sin(l/2) * Math.sin(l/2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+		double d = R * c;
+		
+		return d;
+		
+	}
+	
+	public static double distance(double lat1, double lat2, double lon1,
+	        double lon2, double el1, double el2) {
+
+	    final int R = 6371; // Radius of the earth
+
+	    double latDistance = Math.toRadians(lat2 - lat1);
+	    double lonDistance = Math.toRadians(lon2 - lon1);
+	    double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+	            + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+	            * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	    double distance = R * c * 1000; // convert to meters
+
+	    double height = el1 - el2;
+
+	    distance = Math.pow(distance, 2) + Math.pow(height, 2);
+
+	    return Math.sqrt(distance);
+	}
+	
+}

@@ -1,0 +1,73 @@
+package com.burton.twy.gpx.core;
+
+public class GPXTrackPoint {
+
+	public GPXTrackPoint(){
+		
+	}
+	
+	private double lat;
+	private double lon;
+	private double elevation;
+	private String time;
+	private int atemp;
+	private int hr;
+	private int cad;
+	
+	
+	public String toString(){
+		String str = "";
+		
+		str += lat + "," + lon + "\n";
+		
+		return str;
+	}
+	
+	
+	public double getLat() {
+		return lat;
+	}
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+	public double getLon() {
+		return lon;
+	}
+	public void setLon(double lon) {
+		this.lon = lon;
+	}
+	public double getElevation() {
+		return elevation;
+	}
+	public void setElevation(double elevation) {
+		this.elevation = elevation;
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
+	public int getAtemp() {
+		return atemp;
+	}
+	public void setAtemp(int atemp) {
+		this.atemp = atemp;
+	}
+	public int getHr() {
+		return hr;
+	}
+	public void setHr(int hr) {
+		this.hr = hr;
+	}
+	public int getCad() {
+		return cad;
+	}
+	public void setCad(int cad) {
+		this.cad = cad;
+	}
+	
+	
+	
+	
+}

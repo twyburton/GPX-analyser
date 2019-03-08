@@ -1,0 +1,21 @@
+package com.burton.twy.analyser.core;
+
+import com.burton.twy.gpx.core.GPX;
+import com.burton.twy.gpx.core.GPXTrack;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		
+		GPX gpx = new GPX();
+		
+		gpx.parse("D:/Documents/Cycling/rides/2019.03.07.gpx");
+		
+		GPXTrack trk = gpx.getTrack(0);
+		
+		System.out.println(trk.getSegmentsSize());
+
+	}
+
+}

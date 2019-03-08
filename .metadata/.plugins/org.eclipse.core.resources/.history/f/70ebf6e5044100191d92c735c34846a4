@@ -1,0 +1,14 @@
+package com.burton.twy.gpx.core;
+
+public class GPXTrackPoint {
+
+	public GPXTrackPoint(){
+		
+	}
+	
+	private double lat;
+	private double lon;
+	private double elevation;
+	
+	
+}

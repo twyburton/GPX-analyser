@@ -1,0 +1,5 @@
+package com.burton.twy.analyser.core;
+
+public class Calculator {
+	
+}

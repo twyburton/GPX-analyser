@@ -1,0 +1,27 @@
+package com.burton.twy.gpx.core;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class GPXTrackSegment {
+
+	public GPXTrackSegment(){
+		
+	}
+	
+	
+	private List<GPXTrackPoint> trkpts = new ArrayList<GPXTrackPoint>();
+
+
+	public List<GPXTrackPoint> getTrkpts() {
+		return trkpts;
+	}
+
+
+	public void setTrkpts(List<GPXTrackPoint> trkpts) {
+		this.trkpts = trkpts;
+	}
+	
+	
+	
+}

@@ -1,0 +1,80 @@
+package com.burton.twy.analyser.core;
+
+import com.burton.twy.gpx.core.GPXTrackPoint;
+import com.burton.twy.gpx.core.GPXTrackSegment;
+
+public class Calculator {
+
+	public static double getDistanceforSegment( GPXTrackSegment seg ){
+		
+		double d = 0;
+		
+		for( int i = 1 ; i < seg.getTrackPointsSize(); i++ ){
+			GPXTrackPoint p0 = seg.getTrackPoint(i-1);
+			GPXTrackPoint p1 = seg.getTrackPoint(i);
+			
+			d += distance(p0.getLat(), p1.getLat(), p0.getLon(), p1.getLon(), p0.getElevation(), p1.getElevation());
+			
+		}
+		
+		return d;
+		
+	}
+	
+	
+	private static double distance(double lat1, double lat2, double lon1, double lon2){
+		
+		double R = (int) radiusOfEarth((lat1+lat2)/2.0);
+		double o1 = Math.toRadians(lat1);
+		double o2 = Math.toRadians(lat2);
+		double o = Math.toRadians(lat2-lat1);
+		double l = Math.toRadians(lon2-lon1);
+
+		double a = Math.sin(o/2) * Math.sin(o/2) +
+		        Math.cos(o1) * Math.cos(o2) *
+		        Math.sin(l/2) * Math.sin(l/2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+		double d = R * c;
+		
+		return d;
+		
+	}
+	
+	public static double distance(double lat1, double lat2, double lon1,
+	        double lon2, double el1, double el2) {
+
+	    //final int R = 6371; // Radius of the earth
+	    final int R = (int) radiusOfEarth((lat1+lat2)/2.0); // Radius of the earth
+
+	    double latDistance = Math.toRadians(lat2 - lat1);
+	    double lonDistance = Math.toRadians(lon2 - lon1);
+	    double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+	            + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+	            * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	    double distance = R * c; // convert to meters
+
+	    double height = el1 - el2;
+
+	    distance = Math.pow(distance, 2) + Math.pow(height, 2);
+
+	    return Math.sqrt(distance);
+	}
+	
+	
+	public static double radiusOfEarth(double lat){
+		
+		double r1 = 6378137;
+		double r2 = 6356752;
+		 
+		
+		return Math.sqrt(
+				
+				( Math.pow(Math.pow(r1, 2) * Math.cos(lat),2) + Math.pow(Math.pow(r2,2) * Math.sin(lat),2) ) 
+				/ ( Math.pow(r1 * Math.cos(lat),2) + Math.pow(r2 * Math.sin(lat),2) )
+						
+						);
+		
+	}
+}

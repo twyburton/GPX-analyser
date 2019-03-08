@@ -1,0 +1,109 @@
+package com.burton.twy.gpx.core;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+public class GPX {
+
+	public GPX(){
+		
+	}
+	
+	public boolean parse(String file){
+		
+		File f = new File(file);
+		
+		if( !f.exists() ) return false;
+		
+		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(f);
+			doc.getDocumentElement().normalize();
+			
+			NodeList nList = doc.getElementsByTagName("trk");
+			GPXTrack track = new GPXTrack();
+			
+			// == Trk List ==
+			for( int i = 0; i < nList.getLength(); i++ ){
+				Node node = nList.item(i);
+				//System.out.println(node.getNodeName());
+				
+				NodeList trackNodes = node.getChildNodes();
+				
+				for( int j = 0; j < trackNodes.getLength(); j++){
+					Node trackNode = trackNodes.item(j);
+					 
+					
+					switch (trackNode.getNodeName()){
+						case "name":
+							track.setName(trackNode.getTextContent());
+							break;
+						case "type":
+							track.setType(Integer.parseInt(trackNode.getTextContent()));
+							break;
+						case "trkseg":
+							
+							// == Add Segment to Track ==
+							
+							GPXTrackSegment seg = new GPXTrackSegment();
+							
+							NodeList trackSegNodes = trackNode.getChildNodes();
+							for( int u = 0 ; u < trackSegNodes.getLength(); u++ ){
+								Node trackSegNode = trackSegNodes.item(u);
+								
+								if( trackSegNode.getNodeName().equals("trkpt")){
+									
+									GPXTrackPoint trkpt = new GPXTrackPoint();
+								
+									NamedNodeMap attr = trackSegNode.getAttributes();
+									Node lat = attr.getNamedItem("lat");
+									Node lon = attr.getNamedItem("lon");
+									
+									trkpt.setLat(Double.parseDouble(lat.getTextContent()));
+									trkpt.setLon(Double.parseDouble(lon.getTextContent()));
+							
+									
+									
+									seg.addTrackPoint(trkpt);
+								}
+						
+							}
+							
+							track.addSegment(seg);
+							
+							
+							break;
+							
+							
+					}
+					
+				}
+				
+			}
+			
+			
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+         
+		
+		return true;
+	}
+	
+	
+	private List<GPXTrack> tracks;
+	
+}

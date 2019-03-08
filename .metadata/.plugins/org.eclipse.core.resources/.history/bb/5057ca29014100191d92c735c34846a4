@@ -1,0 +1,13 @@
+package com.burton.twy.gpx.core;
+
+public class GPXTrack {
+
+	private String time;
+	private String name;
+	private int type;
+	
+	public GPXTrack(){
+		
+	}
+	
+}

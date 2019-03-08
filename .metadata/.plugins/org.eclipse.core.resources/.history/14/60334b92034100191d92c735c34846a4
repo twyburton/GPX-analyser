@@ -1,0 +1,5 @@
+package com.burton.twy.gpx.core;
+
+public class GPXTrackSegment {
+
+}
